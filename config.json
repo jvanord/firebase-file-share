@@ -1,0 +1,10 @@
+{
+    "firebase": {
+        "apiKey": "AIzaSyD9vbk4HQghZwMd7kvW5INW5LNyySzhjMI",
+        "authDomain": "file-share-92ec3.firebaseapp.com",
+        "projectId": "file-share-92ec3",
+        "storageBucket": "file-share-92ec3.appspot.com",
+        "messagingSenderId": "502858096586",
+        "appId": "1:502858096586:web:324faa980728ea2347f933"
+    }
+}

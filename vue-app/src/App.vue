@@ -2,7 +2,7 @@
   <v-app>
     <Navbar/>
     <v-main>
-      <HelloWorld/>
+      <router-view/>
       <Error/>
     </v-main>
   </v-app>
@@ -18,7 +18,6 @@ export default Vue.extend({
   name: 'App',
 
   components: {
-    HelloWorld,
     Navbar,
     Error
   },

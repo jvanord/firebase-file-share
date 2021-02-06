@@ -9,11 +9,14 @@ import config from './../../config.json'
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App),
-  created() {
-    firebase.initializeApp(config.firebase)
-  }
+    router,
+    store,
+    vuetify,
+    render: h => h(App),
+    created() {
+        firebase.initializeApp(config.firebase)
+    },
+    beforeMount() {
+        store.commit('setUser', firebase.auth().currentUser)
+    }
 }).$mount('#app')

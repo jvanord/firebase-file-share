@@ -75,7 +75,7 @@ export default Vue.extend({
 				this.form.reset();
 				this.busy = false;
 				// if success
-				this.$router.replace('/');
+				this.$router.replace(<string>this.$route.query.r || 'Home');
 			});
 		},
 		validate() {

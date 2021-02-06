@@ -1,3 +1,4 @@
+import store from '@/store'
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
@@ -7,32 +8,54 @@ import NotFound from '../views/NotFound.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  { path: '/404', name: 'NotFound', component: NotFound },
-  { path: '*', component: NotFound }
+    {
+        path: '/',
+        name: 'Home',
+        component: Home,
+        meta: { authRequired: false }
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login,
+        beforeEnter: (to, from, next) => {
+            console.log({
+                isAuthenticated: store.getters['isAuthenticated'],
+                from,
+                to
+            })
+            if (store.getters['isAuthenticated'])
+                next({ name: from.name || 'Home', replace: true })
+            else
+                next()
+        }
+    },
+    {
+        path: '/about',
+        name: 'About',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+        meta: { authRequired: true }
+    },
+    { path: '/404', name: 'NotFound', component: NotFound },
+    { path: '*', component: NotFound }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
+
+router.beforeEach(async (to, from, next) => {
+    const authRequired = to.matched.some(record => record.meta.authRequired);
+    if (authRequired && !store.getters['isAuthenticated']) {
+        next({ name: 'Login', query: { r: to.name || to.path } });
+    } else {
+        next();
+    }
+});
 
 export default router

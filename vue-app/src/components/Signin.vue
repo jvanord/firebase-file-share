@@ -1,6 +1,6 @@
 <template>
 	<v-card class="pa-4">
-		<v-card-title class="justify-center text-center">Sign Up</v-card-title>
+		<v-card-title class="justify-center text-center">Sign In</v-card-title>
 		<v-form ref="form" v-model="valid">
 			<v-card-text>
 				<v-text-field
@@ -27,7 +27,7 @@
 				></v-text-field>
 			</v-card-text>
 			<v-card-actions>
-				<v-btn :disabled="!valid && !busy" color="primary" @click="signUp">Sign Up</v-btn>
+				<v-btn :disabled="!valid && !busy" color="primary" @click="signIn">Sign In</v-btn>
 				<v-btn color="" @click="reset">Reset</v-btn>
 			</v-card-actions>
 			<v-progress-linear indeterminate color="primary" :active="busy"> </v-progress-linear>
@@ -39,7 +39,7 @@
 import Vue from 'vue';
 import { mapActions } from 'vuex';
 export default Vue.extend({
-	name: 'Signup',
+	name: 'Signin',
 	data: () => ({
 		valid: true,
 		busy: false,
@@ -64,13 +64,14 @@ export default Vue.extend({
 		},
 	},
 	methods: {
-		...mapActions(['signUpAction']),
-		signUp() {
+		...mapActions(['signInAction']),
+		signIn() {
 			this.busy = true;
-			this.signUpAction({
+			this.signInAction({
 				email: this.email,
 				password: this.password,
 			}).then((response: any) => {
+				console.log(response);
 				this.form.reset();
 				this.busy = false;
 				this.$router.replace(<string>this.$route.query.r || '/');

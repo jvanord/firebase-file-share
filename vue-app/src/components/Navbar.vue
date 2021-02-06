@@ -22,9 +22,12 @@
 
 		<v-spacer></v-spacer>
 
-		<v-btn v-if="isAuthenticated"> User </v-btn>
+		<v-btn text v-if="isAuthenticated" @click="signOutAction">
+			<span class="mr-2">Logout</span>
+			<v-icon>mdi-logout</v-icon>
+		</v-btn>
 
-		<v-btn v-if="!isAuthenticated" text to="/login">
+		<v-btn text v-if="!isAuthenticated" to="/login">
 			<span class="mr-2">Sign In</span>
 			<v-icon>mdi-login</v-icon>
 		</v-btn>
@@ -37,13 +40,15 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { Store, mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
 	data: () => ({
 		links: ['signup'],
 	}),
-	methods: {},
+	methods: {
+		...mapActions(['signOutAction']),
+	},
 	computed: {
 		...mapGetters(['isAuthenticated']),
 	},

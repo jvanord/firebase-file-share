@@ -18,17 +18,6 @@ const routes: Array<RouteConfig> = [
         path: '/login',
         name: 'Login',
         component: Login,
-        beforeEnter: (to, from, next) => {
-            console.log({
-                isAuthenticated: store.getters['isAuthenticated'],
-                from,
-                to
-            })
-            if (store.getters['isAuthenticated'])
-                next({ name: from.name || 'Home', replace: true })
-            else
-                next()
-        }
     },
     {
         path: '/about',
@@ -50,6 +39,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+    console.log('authentication gaurd', store.getters['isAuthenticated'])
     const authRequired = to.matched.some(record => record.meta.authRequired);
     if (authRequired && !store.getters['isAuthenticated']) {
         next({ name: 'Login', query: { r: to.name || to.path } });

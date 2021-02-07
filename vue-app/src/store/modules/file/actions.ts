@@ -1,5 +1,5 @@
 import { ActionContext, ActionTree } from 'vuex'
-import { IFileModuleState, IRootState } from '@/store/types'
+import { IFileInfo, IFileModuleState, IRootState } from '@/store/types'
 import router from '@/router'
 import firebase from 'firebase'
 
@@ -19,7 +19,8 @@ const add = async ({ commit }: ActionContext<IFileModuleState, IRootState>, payl
 const load = async ({ commit }: ActionContext<IFileModuleState, IRootState>, payload: any) => {
     return firebase.storage().ref(firebase.auth().currentUser?.uid).listAll()
         .then(response => {
-            console.log('load files response', response)
+            console.log('load files response', response.items)
+            commit('setFiles', response.items)
         })
         .catch(error => {
             console.error(error)

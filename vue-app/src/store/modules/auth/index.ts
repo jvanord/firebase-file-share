@@ -1,8 +1,8 @@
 import { Module } from 'Vuex'
 import { IAuthState, IRootState } from '@/store/types'
-import { getters } from './auth/getters'
-import { actions } from './auth/actions'
-import { mutations } from './auth/mutations'
+import { getters } from './getters'
+import { actions } from './actions'
+import { mutations } from './mutations'
 
 const namespaced = true
 const state: IAuthState = { user: null }

@@ -1,8 +1,8 @@
 import { Module } from 'vuex'
 import { IFileModuleState, IRootState } from '@/store/types'
-import { getters } from './file/getters'
-import { actions } from './file/actions'
-import { mutations } from './file/mutations'
+import { getters } from './getters'
+import { actions } from './actions'
+import { mutations } from './mutations'
 
 const namespaced = true
 const state: IFileModuleState = { files: [] }

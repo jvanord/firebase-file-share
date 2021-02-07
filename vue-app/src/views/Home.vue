@@ -23,7 +23,12 @@
 								{{ file.name }}
 							</v-list-item-content>
 							<v-list-item-icon>
-								<v-icon color="primary darken-2">mdi-download</v-icon>
+								<v-icon
+									color="primary darken-2"
+									@click="onDownloadClick(file.fullPath)"
+								>
+									mdi-download</v-icon
+								>
 								<v-icon color="red darken-4" @click="onDeleteClick(file.fullPath)">
 									mdi-delete
 								</v-icon>
@@ -40,6 +45,8 @@
 import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import VuetifyLogo from '../../../web/components/VuetifyLogo.vue';
+import firebase from 'firebase';
+
 export default Vue.extend({
 	name: 'Home',
 	components: { VuetifyLogo },
@@ -61,6 +68,15 @@ export default Vue.extend({
 		onDeleteClick: function (fileName: string) {
 			console.log('delete clicked: ' + fileName);
 			this.deleteFile(fileName);
+		},
+		onDownloadClick: function (fileName: string) {
+			var match: firebase.storage.Reference[] = this.myFiles.filter(
+				(f: firebase.storage.Reference) => f.fullPath == fileName,
+			);
+			if (!match.length) return;
+			match[0].getDownloadURL().then((url) => {
+				window.open(url, '_blank');
+			});
 		},
 		hideLoading: function (timeout: number | undefined) {
 			let _this = this;

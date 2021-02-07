@@ -49,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
     console.log('authentication gaurd', store.getters['auth/isAuthenticated'])
     const authRequired = to.matched.some(record => record.meta.authRequired);
     if (authRequired && !store.getters['auth/isAuthenticated']) {
-        next({ name: 'Login', query: { r: to.name || to.path } });
+        next({ name: 'Login', query: { r: to.path } });
     } else {
         next();
     }

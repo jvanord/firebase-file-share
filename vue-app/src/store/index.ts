@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex, { ActionContext, StoreOptions } from 'vuex'
 import { IRootState } from './types'
 import { auth } from './modules/auth'
+import { file } from './modules/file'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ const store: StoreOptions<IRootState> = {
     mutations: { setError },
     actions: { clearError, testError },
     modules: {
-        auth
+        auth,
+        file
     }
 }
 export default new Vuex.Store<IRootState>(store);

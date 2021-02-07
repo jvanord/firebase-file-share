@@ -26,6 +26,11 @@
 			<v-icon>mdi-test</v-icon>
 		</v-btn>
 
+		<v-btn text v-if="isAuthenticated" to="/">
+			<span class="mr-2 d-none d-sm-flex">Home</span>
+			<v-icon>mdi-home</v-icon>
+		</v-btn>
+
 		<v-btn text v-if="isAuthenticated" to="/upload">
 			<span class="mr-2 d-none d-sm-flex">Upload</span>
 			<v-icon>mdi-upload</v-icon>

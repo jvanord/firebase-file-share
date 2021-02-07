@@ -34,13 +34,13 @@ export default Vue.extend({
 	components: { VuetifyLogo },
 	mounted() {
 		this.$store.dispatch('file/load');
-		this.hideLoading(2000);
+		//this.hideLoading(2000);
 	},
 	data: () => ({
-		loading: true,
+		//loading: true,
 	}),
 	computed: {
-		...mapGetters({ myFiles: 'file/myFiles' }),
+		...mapGetters({ myFiles: 'file/myFiles', loading: 'file/loading' }),
 		empty(): boolean {
 			return !this.myFiles.length;
 		},

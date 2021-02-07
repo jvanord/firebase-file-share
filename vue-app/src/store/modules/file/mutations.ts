@@ -6,6 +6,11 @@ const setFiles = (state: IFileModuleState, payload: any) => {
     state.files = payload
 }
 
+const setLoading = (state: IFileModuleState, payload: boolean) => {
+    state.loading = payload
+}
+
 export const mutations: MutationTree<IFileModuleState> = {
-    setFiles
+    setFiles,
+    setLoading,
 }  

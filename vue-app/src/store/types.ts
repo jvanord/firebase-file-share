@@ -15,5 +15,6 @@ export interface IFileInfo {
 }
 
 export interface IFileModuleState {
-    files: firebase.storage.Reference[]
+    files: firebase.storage.Reference[],
+    loading: boolean
 }

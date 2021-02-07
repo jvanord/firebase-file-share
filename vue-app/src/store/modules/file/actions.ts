@@ -1,10 +1,10 @@
 import { ActionContext, ActionTree } from 'vuex'
-import { IFileInfo, IFileModuleState, IRootState } from '@/store/types'
-import router from '@/router'
+import { IFileModuleState, IRootState } from '@/store/types'
 import firebase from 'firebase'
 
 const add = async ({ commit }: ActionContext<IFileModuleState, IRootState>, payload: File) => {
     console.log('Uploading File', payload)
+    commit('setLoading', true)
     const path = firebase.auth().currentUser?.uid + '/' + payload.name
     return firebase.storage().ref(path).put(await payload.arrayBuffer(), { cacheControl: 'no-cache', contentType: payload.type })
         .then(response => {
@@ -13,10 +13,12 @@ const add = async ({ commit }: ActionContext<IFileModuleState, IRootState>, payl
         .catch(error => {
             console.error(error)
             commit("setError", error.message, { root: true })
-        });
+        })
+        .finally(() => commit('setLoading', false))
 }
 
 const load = async ({ commit }: ActionContext<IFileModuleState, IRootState>, payload: any) => {
+    commit('setLoading', true)
     return firebase.storage().ref(firebase.auth().currentUser?.uid).listAll()
         .then(response => {
             console.log('load files response', response.items)
@@ -25,7 +27,8 @@ const load = async ({ commit }: ActionContext<IFileModuleState, IRootState>, pay
         .catch(error => {
             console.error(error)
             commit("setError", error.message, { root: true })
-        });
+        })
+        .finally(() => commit('setLoading', false))
 }
 
 export const actions: ActionTree<IFileModuleState, IRootState> = {

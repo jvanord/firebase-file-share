@@ -3,6 +3,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Upload from '../views/Upload.vue'
 import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
@@ -18,6 +19,12 @@ const routes: Array<RouteConfig> = [
         path: '/login',
         name: 'Login',
         component: Login,
+    },
+    {
+        path: '/upload',
+        name: 'Upload',
+        component: Upload,
+        meta: { authRequired: true }
     },
     {
         path: '/about',
@@ -39,9 +46,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-    console.log('authentication gaurd', store.getters['isAuthenticated'])
+    console.log('authentication gaurd', store.getters['auth/isAuthenticated'])
     const authRequired = to.matched.some(record => record.meta.authRequired);
-    if (authRequired && !store.getters['isAuthenticated']) {
+    if (authRequired && !store.getters['auth/isAuthenticated']) {
         next({ name: 'Login', query: { r: to.name || to.path } });
     } else {
         next();

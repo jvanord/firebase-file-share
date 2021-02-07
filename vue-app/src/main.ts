@@ -19,7 +19,7 @@ new Vue({
     beforeMount() {
         firebase.auth().onAuthStateChanged(user => {
             console.log('Authentication Changed', user)
-            store.commit('setUser', user)
+            store.commit('auth/setUser', user)
         });
     }
 }).$mount('#app')

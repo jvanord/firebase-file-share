@@ -1,14 +1,5 @@
 <template>
-	<v-snackbar
-		v-model="getError"
-		:timeout="-1"
-		:value="true"
-		absolute
-		top
-		right
-		color="error"
-		outlined
-	>
+	<v-snackbar :value="getError" :timeout="3500" absolute top right color="error" outlined>
 		{{ getError }}
 		<template v-slot:action="{ attrs }">
 			<v-btn color="error" text v-bind="attrs" @click="clearError">

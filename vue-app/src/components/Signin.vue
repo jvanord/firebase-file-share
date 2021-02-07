@@ -64,17 +64,16 @@ export default Vue.extend({
 		},
 	},
 	methods: {
-		...mapActions(['signInAction']),
+		...mapActions({ authSignIn: 'auth/signIn' }),
 		signIn() {
 			this.busy = true;
-			this.signInAction({
+			this.authSignIn({
 				email: this.email,
 				password: this.password,
 			}).then((response: any) => {
-				console.log(response);
 				this.form.reset();
 				this.busy = false;
-				this.$router.replace(<string>this.$route.query.r || '/');
+				if (!!response) this.$router.replace(<string>this.$route.query.r || '/');
 			});
 		},
 		validate() {

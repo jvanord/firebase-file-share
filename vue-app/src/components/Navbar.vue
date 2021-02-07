@@ -22,8 +22,17 @@
 
 		<v-spacer></v-spacer>
 
-		<v-btn text v-if="isAuthenticated" @click="signOutAction">
-			<span class="mr-2">Logout</span>
+		<v-btn text color="error" @click="testError('Test')">
+			<v-icon>mdi-test</v-icon>
+		</v-btn>
+
+		<v-btn text v-if="isAuthenticated" to="/upload">
+			<span class="mr-2 d-none d-sm-flex">Upload</span>
+			<v-icon>mdi-upload</v-icon>
+		</v-btn>
+
+		<v-btn text v-if="isAuthenticated" @click="signOut">
+			<span class="mr-2 d-none d-sm-flex">Logout</span>
 			<v-icon>mdi-logout</v-icon>
 		</v-btn>
 
@@ -31,26 +40,20 @@
 			<span class="mr-2">Sign In</span>
 			<v-icon>mdi-login</v-icon>
 		</v-btn>
-
-		<v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
-			<span class="mr-2">Latest Release</span>
-			<v-icon>mdi-open-in-new</v-icon>
-		</v-btn>
 	</v-app-bar>
 </template>
+
 <script lang="ts">
 import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
-	data: () => ({
-		links: ['signup'],
-	}),
-	methods: {
-		...mapActions(['signOutAction']),
-	},
+	data: () => ({}),
 	computed: {
-		...mapGetters(['isAuthenticated']),
+		...mapGetters({ isAuthenticated: 'auth/isAuthenticated' }),
+	},
+	methods: {
+		...mapActions({ signOut: 'auth/signOut', testError: 'testError' }),
 	},
 });
 </script>

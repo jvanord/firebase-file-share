@@ -14,6 +14,9 @@
 				</v-card-actions>
 			</v-form>
 		</v-card>
+		<v-snackbar v-model="success" color="success" absolute top right outlined :timeout="2500">
+			{{ successMessage }}
+		</v-snackbar>
 	</v-container>
 </template>
 
@@ -21,7 +24,17 @@
 import Vue from 'vue';
 import { mapActions } from 'vuex';
 export default Vue.extend({
-	data: () => ({ file: null }),
+	data: () => ({ file: null, successMessage: '' }),
+	computed: {
+		success: {
+			get: function () {
+				return !!this.successMessage;
+			},
+			set: function (val) {
+				if (!val) this.successMessage = '';
+			},
+		},
+	},
 	watch: {
 		file: function (file) {
 			console.log(file);
@@ -31,6 +44,8 @@ export default Vue.extend({
 		...mapActions({ addFile: 'file/add' }),
 		onUploadClick: function () {
 			this.addFile(this.file);
+			this.file = null;
+			this.successMessage = 'File uploaded successfully!';
 		},
 	},
 });

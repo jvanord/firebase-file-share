@@ -31,7 +31,22 @@ const load = async ({ commit }: ActionContext<IFileModuleState, IRootState>, pay
         .finally(() => commit('setLoading', false))
 }
 
+const _delete = async ({ dispatch, commit }: ActionContext<IFileModuleState, IRootState>, payload: string) => {
+    commit('setLoading', true)
+    return firebase.storage().ref(payload).delete()
+        .then(response => {
+            console.log('delete file response', response)
+            dispatch('load')
+        })
+        .catch(error => {
+            console.error(error)
+            commit("setError", error.message, { root: true })
+            commit('setLoading', false)
+        })
+}
+
 export const actions: ActionTree<IFileModuleState, IRootState> = {
     add,
-    load
+    load,
+    delete: _delete
 }

@@ -6,6 +6,7 @@
 				<v-text-field
 					v-model="email"
 					label="Email Address"
+					:type="email"
 					hint="email@example.com"
 					prepend-inner-icon="mdi-email"
 					:rules="emailRules"

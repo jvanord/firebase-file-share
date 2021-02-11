@@ -64,19 +64,28 @@ export default Vue.extend({
 		},
 	},
 	methods: {
-		...mapActions({ deleteFile: 'file/delete', reload: 'file/load' }),
+		...mapActions({
+			deleteFile: 'file/delete',
+			reload: 'file/load',
+			download: 'file/download',
+		}),
 		onDeleteClick: function (fileName: string) {
 			console.log('delete clicked: ' + fileName);
 			this.deleteFile(fileName);
 		},
-		onDownloadClick: function (fileName: string) {
+		onDownloadClick: async function (fileName: string) {
 			var match: firebase.storage.Reference[] = this.myFiles.filter(
 				(f: firebase.storage.Reference) => f.fullPath == fileName,
 			);
 			if (!match.length) return;
-			match[0].getDownloadURL().then((url) => {
-				window.open(url, '_blank');
-			});
+			let url = await match[0].getDownloadURL();
+			let data = await this.download(url);
+			var fileURL = window.URL.createObjectURL(data);
+			var fileLink = document.createElement('a');
+			fileLink.href = fileURL;
+			fileLink.setAttribute('download', fileName);
+			document.body.appendChild(fileLink);
+			fileLink.click();
 		},
 		hideLoading: function (timeout: number | undefined) {
 			let _this = this;

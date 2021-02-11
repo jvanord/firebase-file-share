@@ -1,6 +1,7 @@
 import { ActionContext, ActionTree } from 'vuex'
 import { IFileModuleState, IRootState } from '@/store/types'
 import firebase from 'firebase'
+import axios from 'axios'
 
 const add = async ({ commit }: ActionContext<IFileModuleState, IRootState>, payload: File) => {
     console.log('Uploading File', payload)
@@ -45,8 +46,18 @@ const _delete = async ({ dispatch, commit }: ActionContext<IFileModuleState, IRo
         })
 }
 
+const download = async ({ commit }: ActionContext<IFileModuleState, IRootState>, payload: string) => {
+    let response = await axios({
+        url: payload,
+        method: 'GET',
+        responseType: 'blob',
+    });
+    return new Blob([response.data]);
+}
+
 export const actions: ActionTree<IFileModuleState, IRootState> = {
     add,
     load,
-    delete: _delete
+    delete: _delete,
+    download,
 }
